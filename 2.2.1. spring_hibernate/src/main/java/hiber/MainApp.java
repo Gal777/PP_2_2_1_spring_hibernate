@@ -1,9 +1,11 @@
 package hiber;
 
 import hiber.config.AppConfig;
+import hiber.model.Car;
 import hiber.model.User;
 import hiber.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +17,14 @@ public class MainApp {
 
       UserService userService = context.getBean(UserService.class);
 
-      userService.add(new User("User1", "Lastname1", "user1@mail.ru"));
-      userService.add(new User("User2", "Lastname2", "user2@mail.ru"));
-      userService.add(new User("User3", "Lastname3", "user3@mail.ru"));
-      userService.add(new User("User4", "Lastname4", "user4@mail.ru"));
+      userService.add(new User("Ivan", "Ivanov", "Ivanov@mail.ru",
+                               new Car("reno", 567)));
+      userService.add(new User("Petr", "Petrov", "Petrov@mail.ru",
+                               new Car("Mazda", 325)));
+      userService.add(new User("Olga", "Sidorova", "Sidorova@mail.ru",
+                               new Car("Lada", 777)));
+      userService.add(new User("Elena", "Voronova", "Voronova@mail.ru",
+                               new Car("UAZ", 555)));
 
       List<User> users = userService.listUsers();
       for (User user : users) {
@@ -28,6 +34,8 @@ public class MainApp {
          System.out.println("Email = "+user.getEmail());
          System.out.println();
       }
+      User user = userService.findByUser("UAZ", 555);
+      System.out.println(user);
 
       context.close();
    }
